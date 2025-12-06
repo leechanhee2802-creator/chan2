@@ -2,31 +2,11 @@
 from __future__ import annotations
 
 import re
-import sys
-from pathlib import Path
 from typing import List
 
 import streamlit as st
 
-
-# Ensure local modules are importable when the working directory differs (e.g., Streamlit Cloud)
-ROOT_DIR = Path(__file__).resolve().parent
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
-
-try:
-    from nutrition import FOODS, summarize_with_missing
-except (ImportError, AttributeError):
-    # 구 버전 nutrition 모듈이나 동일 이름의 서드파티 패키지가 설치되어
-    # summarize_with_missing이 없는 경우를 대비해 안전하게 폴백합니다.
-    import importlib
-
-    nutrition = importlib.import_module("nutrition")
-    FOODS = nutrition.FOODS
-
-    def summarize_with_missing(foods):  # type: ignore[no-redef]
-        rows, total = nutrition.summarize(foods)
-        return rows, total, []
+from nutrition import FOODS, summarize_with_missing
 
 
 st.set_page_config(page_title="식단 관리", page_icon="🥗", layout="wide")

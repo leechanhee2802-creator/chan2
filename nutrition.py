@@ -100,37 +100,3 @@ def summarize(foods: Iterable[str]) -> Tuple[List[List[str]], FoodInfo]:
         unit="총합",
     )
     return rows, total
-
-
-def summarize_with_missing(
-    foods: Iterable[str],
-) -> Tuple[List[List[str]], FoodInfo, List[Tuple[str, List[str]]]]:
-    """여러 음식 이름을 받아 테이블, 총합, 누락된 항목을 계산합니다."""
-
-    rows: List[List[str]] = []
-    total_calories = 0
-    total_protein = 0.0
-    total_carbs = 0.0
-    total_fat = 0.0
-    missing: List[Tuple[str, List[str]]] = []
-
-    for food in foods:
-        info, suggestions = lookup_food(food)
-        if not info:
-            missing.append((food, suggestions))
-            continue
-
-        rows.append(info.as_row(food))
-        total_calories += info.calories
-        total_protein += info.protein
-        total_carbs += info.carbs
-        total_fat += info.fat
-
-    total = FoodInfo(
-        calories=total_calories,
-        protein=total_protein,
-        carbs=total_carbs,
-        fat=total_fat,
-        unit="총합",
-    )
-    return rows, total, missing

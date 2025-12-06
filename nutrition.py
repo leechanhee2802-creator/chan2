@@ -99,6 +99,6 @@ def summarize(foods: Iterable[str]) -> Tuple[List[List[str]], FoodInfo]:
         fat=total_fat,
         unit="총합",
     )
-    return rows, total
+return rows, total
 def summarize_foods(foods)
     return summarize(foods)

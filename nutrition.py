@@ -98,3 +98,40 @@ def summarize_foods(
 
     반환값:
     - rows: 화면에 보여줄 표 한 줄씩
+    - total: 총합 FoodInfo
+    - missing: [(입력한 원래 이름, [비슷한 추천 이름들...]), ...]
+    """
+    rows: List[List[str]] = []
+    missing: List[Tuple[str, List[str]]] = []
+
+    total_calories = 0.0
+    total_protein = 0.0
+    total_carbs = 0.0
+    total_fat = 0.0
+
+    for raw_name in foods:
+        name = raw_name.strip()
+        if not name:
+            continue
+
+        info, suggestions = lookup_food(name)
+        if not info:
+            # 찾지 못한 음식은 missing 목록에 추가
+            missing.append((name, suggestions))
+            continue
+
+        rows.append(info.as_row(name))
+        total_calories += info.calories
+        total_protein += info.protein
+        total_carbs += info.carbs
+        total_fat += info.fat
+
+    total = FoodInfo(
+        calories=total_calories,
+        protein=total_protein,
+        carbs=total_carbs,
+        fat=total_fat,
+        unit="총합",
+    )
+
+    return rows, total, missing

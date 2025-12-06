@@ -2,17 +2,9 @@
 from __future__ import annotations
 
 import re
-import sys
-from pathlib import Path
 from typing import List
 
 import streamlit as st
-
-
-# Ensure local modules are importable when the working directory differs (e.g., Streamlit Cloud)
-ROOT_DIR = Path(__file__).resolve().parent
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
 
 from nutrition import FOODS, summarize_with_missing
 

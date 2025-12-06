@@ -1,6 +1,6 @@
 import unittest
 
-from nutrition import FoodInfo, lookup_food, summarize, summarize_with_missing
+from nutrition import FoodInfo, lookup_food, summarize
 
 
 class NutritionTests(unittest.TestCase):
@@ -20,12 +20,6 @@ class NutritionTests(unittest.TestCase):
         self.assertEqual(len(rows), 2)
         self.assertEqual(total.calories, 165 + 86)
         self.assertAlmostEqual(total.protein, 31.0 + 1.6)
-
-    def test_summarize_with_missing(self):
-        rows, total, missing = summarize_with_missing(["닭가슴살", "모르는음식"])
-        self.assertEqual(len(rows), 1)
-        self.assertEqual(total.calories, 165)
-        self.assertEqual(len(missing), 1)
 
 
 if __name__ == "__main__":

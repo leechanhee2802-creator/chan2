@@ -8,7 +8,7 @@ from __future__ import annotations
 import argparse
 from typing import Iterable, List
 
-from nutrition import FOODS, summarize_with_missing
+from nutrition import FOODS, lookup_food, summarize
 
 
 def format_table(headers: List[str], rows: Iterable[Iterable[str]]) -> str:
@@ -31,7 +31,7 @@ def format_table(headers: List[str], rows: Iterable[Iterable[str]]) -> str:
 
 def handle_lookup(foods: List[str]) -> None:
     headers = ["음식", "기준량", "칼로리", "단백질", "탄수화물", "지방"]
-    rows, total, missing = summarize_with_missing(foods)
+    rows, total = summarize(foods)
 
     if rows:
         rows.append(["총합", "-", f"{total.calories} kcal", f"{total.protein:.1f} g", f"{total.carbs:.1f} g", f"{total.fat:.1f} g"])
@@ -39,7 +39,10 @@ def handle_lookup(foods: List[str]) -> None:
     else:
         print("알려진 음식이 없습니다. --list 옵션으로 지원하는 음식을 확인하세요.")
 
-    for food, suggestions in missing:
+    for food in foods:
+        info, suggestions = lookup_food(food)
+        if info:
+            continue
         if suggestions:
             suggestion_text = ", ".join(suggestions)
             print(f"\n'{food}'을(를) 찾을 수 없습니다. 혹시 {suggestion_text} 중 하나인가요?")

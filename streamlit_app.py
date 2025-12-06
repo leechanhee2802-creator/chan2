@@ -6,7 +6,7 @@ from typing import List
 
 import streamlit as st
 
-from nutrition import FOODS, summarize_with_missing
+from nutrition import FOODS, summarize_foods
 
 
 st.set_page_config(page_title="식단 관리", page_icon="🥗", layout="wide")
@@ -31,7 +31,7 @@ foods.extend(selected_foods)
 foods.extend(_parse_manual_input(manual_input))
 
 if submitted:
-    rows, total, missing = summarize_with_missing(foods)
+    rows, total, missing = summarize_foods(foods)
 
     if rows:
         st.subheader("영양 정보")
